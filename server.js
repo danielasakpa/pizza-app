@@ -22,7 +22,7 @@ app.prepare().then(() => {
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
     exp.use('/wss', createProxyMiddleware({
-        target: `ws://pizza-app3.netlify.app:${PORT}`,
+        target: `ws://pizza-app3.netlify.app`,
         changeOrigin: true,
         ws: true,
     }))
