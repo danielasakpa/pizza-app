@@ -21,7 +21,7 @@ app.prepare().then(() => {
     }))
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
-    exp.use('/wss', createProxyMiddleware({ target: `wss://${process.env.API_ENDPOINT}:${process.env.PORT}`, ws: true }))
+    exp.use('/wss', createProxyMiddleware({ target: `wss://${process.env.API_ENDPOINT}`, ws: true }))
     exp.use((req, res, next) => {
         req.cookies = cookie.parse(req.headers.cookie || '');
         next();
