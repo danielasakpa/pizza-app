@@ -7,6 +7,7 @@ const prodConfig = {
   env: {
     API_ENDPOINT: 'https://pizza-app3.netlify.app'
   },
+  serverless: true,
 }
 
 const devConfig = {
