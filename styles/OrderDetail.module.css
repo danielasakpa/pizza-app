@@ -1,0 +1,124 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.wrapper {
+  width: 500px;
+  height: 90vh;
+  background-color: white;
+  border-radius: 20px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lable {
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-weight: 300;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: max-content;
+  margin-bottom: 15px;
+}
+
+.input {
+  margin: 8px 0;
+  height: 40px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.textarea {
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  border: none;
+  background-color: teal;
+  color: white;
+  padding: 15px 20px;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.ckeck_out_button {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  padding-top: 20px;
+}
+
+.formError {
+  color: red;
+  margin: 0;
+  padding: 0;
+}
+
+.close {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 500px;
+    height: 90vh;
+    padding: 20px 20px;
+  }
+
+  .title {
+    margin: 60px 0 0 0;
+  }
+}
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 90%;
+    height: min-content;
+    padding: 50px 5px;
+  }
+
+  .title {
+    font-size: 30px;
+    text-align: center;
+    margin: 10px 0 0 0;
+  }
+
+  .ckeck_out_button {
+    width: 100%;
+  }
+}
