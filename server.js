@@ -21,7 +21,7 @@ app.prepare().then(() => {
     }))
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
-    exp.use('/ws', createProxyMiddleware({ target: 'ws://localhost:3000', ws: true }))
+    exp.use('/ws', createProxyMiddleware({ target: 'wss://pizza-app3.netlify.app:3000', ws: true }))
     exp.use((req, res, next) => {
         req.cookies = cookie.parse(req.headers.cookie || '');
         next();
