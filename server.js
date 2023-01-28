@@ -17,18 +17,18 @@ const PORT = process.env.PORT || 3000;
 app.prepare().then(() => {
     const exp = express()
     exp.use(cors({
-        origin: process.env.BASE_URL
+        origin: process.env.API_ENDPOINT
     }))
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
-    exp.use('/wss', createProxyMiddleware({ target: `wss://${process.env.BASE_URL}:${process.env.PORT}`, ws: true }))
+    exp.use('/wss', createProxyMiddleware({ target: `wss://${process.env.API_ENDPOINT}:${process.env.PORT}`, ws: true }))
     exp.use((req, res, next) => {
         req.cookies = cookie.parse(req.headers.cookie || '');
         next();
     });
 
     exp.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", `${process.env.BASE_URL}`);
+        res.header("Access-Control-Allow-Origin", `${process.env.API_ENDPOINT}`);
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
@@ -69,7 +69,7 @@ app.prepare().then(() => {
 
     server.listen(PORT, (err) => {
         if (err) throw err;
-        console.log(`> Ready on ${process.env.BASE_URL}:${PORT}`);
+        console.log(`> Ready on ${process.env.API_ENDPOINT}:${PORT}`);
     });
 }).catch((err) => {
     console.error(err.stack);
