@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // Custom hook to handle socket connection
 const useSocket = (onConnect, onOrderUpdate, onProductUpdate) => {
     useEffect(() => {
-        const socket = new WebSocket(`wss://${process.env.URL}/wss`);
+        const socket = new WebSocket(`wss://${process.env.BASE_URL}/wss`);
 
         if (onConnect) {
             socket.onopen = onConnect;
