@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // Custom hook to handle socket connection
 const useSocket = (onConnect, onOrderUpdate, onProductUpdate) => {
     useEffect(() => {
-        const socket = new WebSocket('wss://pizza-app3.netlify.app:3000');
+        const socket = new WebSocket(`wss://${process.env.URL}/wss`);
 
         if (onConnect) {
             socket.onopen = onConnect;

@@ -17,18 +17,18 @@ const PORT = process.env.PORT || 3000;
 app.prepare().then(() => {
     const exp = express()
     exp.use(cors({
-        origin: 'https://pizza-app3.netlify.app'
+        origin: process.env.URL
     }))
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
-    exp.use('/wss', createProxyMiddleware({ target: 'wss://pizza-app3.netlify.app:3000', ws: true }))
+    exp.use('/wss', createProxyMiddleware({ target: `wss://${process.env.URL}:${process.env.PORT}`, ws: true }))
     exp.use((req, res, next) => {
         req.cookies = cookie.parse(req.headers.cookie || '');
         next();
     });
 
     exp.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", "https://pizza-app3.netlify.app");
+        res.header("Access-Control-Allow-Origin", `${process.env.URL}`);
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
@@ -67,7 +67,7 @@ app.prepare().then(() => {
         return handle(req, res);
     });
 
-    server.listen(3000, (err) => {
+    server.listen(PORT, (err) => {
         if (err) throw err;
         console.log(`> Ready on http://localhost:${PORT}`);
     });
