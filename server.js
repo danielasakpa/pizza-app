@@ -22,7 +22,7 @@ app.prepare().then(() => {
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
     exp.use('/wss', createProxyMiddleware({
-        target: 'wss://pizza-app-lime.vercel.app',
+        target: `wss://pizza-app-lime.vercel.app:${PORT}`,
         changeOrigin: true,
         ws: true,
     }))
