@@ -33,7 +33,7 @@ app.prepare().then(() => {
         next();
     });
 
-    const server = createServer(exp);
+    const server = require('http').Server(exp);
     const wss = new ws.Server({ server });
 
     wss.on('connection', (ws) => {
