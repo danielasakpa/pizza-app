@@ -1,25 +1,25 @@
-import { useEffect } from "react";
+import { useWebSocket } from "react-use-websocket";
 
-// Custom hook to handle socket connection
 const useSocket = (onConnect, onOrderUpdate, onProductUpdate) => {
+    const [sendMessage, lastMessage, readyState] = useWebSocket(`wss://pizza-app-lime.vercel.app`);
+
     useEffect(() => {
-        const socket = new WebSocket(`wss://pizza-app-lime.vercel.app`);
-
-        if (onConnect) {
-            socket.onopen = onConnect;
+        if (readyState === 1 && onConnect) {
+            onConnect();
         }
-        if (onOrderUpdate || onProductUpdate) {
-            socket.onmessage = (event) => {
-                const { type, data } = JSON.parse(event.data);
+    }, [readyState, onConnect]);
 
-                if (type === "order-update" && onOrderUpdate) {
-                    onOrderUpdate(data);
-                } else if (type === "product-update" && onProductUpdate) {
-                    onProductUpdate(data);
-                }
+    useEffect(() => {
+        if (lastMessage) {
+            const { type, data } = JSON.parse(lastMessage.data);
+
+            if (type === "order-update" && onOrderUpdate) {
+                onOrderUpdate(data);
+            } else if (type === "product-update" && onProductUpdate) {
+                onProductUpdate(data);
             }
         }
-    }, []);
+    }, [lastMessage, onOrderUpdate, onProductUpdate]);
 };
 
 export default useSocket;

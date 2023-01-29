@@ -1,6 +1,6 @@
 const express = require('express');
 const next = require('next');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createServer } = require('http')
 const ws = require('ws')
 const bodyParser = require('body-parser');
 const Order = require('./models/Order.js');
@@ -21,11 +21,6 @@ app.prepare().then(() => {
     }))
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
-    // exp.use('/wss', createProxyMiddleware({
-    //     target: `wss://pizza-app-lime.vercel.app:${PORT}`,
-    //     changeOrigin: true,
-    //     ws: true,
-    // }))
 
     exp.use((req, res, next) => {
         req.cookies = cookie.parse(req.headers.cookie || '');
@@ -38,34 +33,19 @@ app.prepare().then(() => {
         next();
     });
 
-    const server = require('http').Server(exp);
+    const server = createServer(exp);
     const wss = new ws.Server({ server });
 
     wss.on('connection', (ws) => {
         console.log("A user has connected")
-    });
 
-
-    Product.watch().on('change', (data) => {
-        wss.clients.forEach((client) => {
-            client.send(JSON.stringify({ type: "product-update", data }));
+        Product.watch().on('change', (data) => {
+            ws.send(JSON.stringify({ type: "product-update", data }));
         });
-    });
 
-    Order.watch().on('change', (data) => {
-        wss.clients.forEach((client) => {
-            client.send(JSON.stringify({ type: "order-update", data }));
+        Order.watch().on('change', (data) => {
+            ws.send(JSON.stringify({ type: "order-update", data }));
         });
-    });
-
-    server.on('upgrade', (req, socket, head) => {
-        console.log("upgrade", req.url)
-
-        if (!req.url.includes('/_next/webpack-hmr')) {
-            wss.handleUpgrade(req, socket, head, (ws) => {
-                wss.emit('connection', ws, req);
-            });
-        }
     });
 
     exp.all('*', (req, res) => {
