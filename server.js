@@ -21,11 +21,11 @@ app.prepare().then(() => {
     }))
     exp.use(bodyParser.json())
     exp.use(bodyParser.urlencoded({ extended: true }));
-    exp.use('/wss', createProxyMiddleware({
-        target: `wss://pizza-app-lime.vercel.app:${PORT}`,
-        changeOrigin: true,
-        ws: true,
-    }))
+    // exp.use('/wss', createProxyMiddleware({
+    //     target: `wss://pizza-app-lime.vercel.app:${PORT}`,
+    //     changeOrigin: true,
+    //     ws: true,
+    // }))
 
     exp.use((req, res, next) => {
         req.cookies = cookie.parse(req.headers.cookie || '');
@@ -38,8 +38,8 @@ app.prepare().then(() => {
         next();
     });
 
-    // const server = require('http').Server(exp);
-    const wss = new ws.Server({ noServer: true });
+    const server = require('http').Server(exp);
+    const wss = new ws.Server({ server });
 
     wss.on('connection', (ws) => {
         console.log("A user has connected")
@@ -58,7 +58,7 @@ app.prepare().then(() => {
         });
     });
 
-    exp.on('upgrade', (req, socket, head) => {
+    server.on('upgrade', (req, socket, head) => {
         console.log("upgrade", req.url)
 
         if (!req.url.includes('/_next/webpack-hmr')) {
@@ -72,7 +72,7 @@ app.prepare().then(() => {
         return handle(req, res);
     });
 
-    exp.listen(PORT, (err) => {
+    server.listen(PORT, (err) => {
         if (err) throw err;
         console.log(`> Ready on ${process.env.API_ENDPOINT}:${PORT}`);
     });
