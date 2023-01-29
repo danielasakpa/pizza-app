@@ -38,7 +38,7 @@ app.prepare().then(() => {
         next();
     });
 
-    // const server = require('http').Server(exp);
+    const server = require('http').Server(exp);
     const wss = new ws.Server({ noServer: true });
 
     wss.on('connection', (ws) => {
@@ -58,7 +58,7 @@ app.prepare().then(() => {
         });
     });
 
-    exp.on('upgrade', (req, socket, head) => {
+    server.on('upgrade', (req, socket, head) => {
         console.log("upgrade", req.url)
 
         if (!req.url.includes('/_next/webpack-hmr')) {
@@ -72,7 +72,7 @@ app.prepare().then(() => {
         return handle(req, res);
     });
 
-    exp.listen(PORT, (err) => {
+    server.listen(PORT, (err) => {
         if (err) throw err;
         console.log(`> Ready on ${process.env.API_ENDPOINT}:${PORT}`);
     });
