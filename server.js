@@ -48,6 +48,16 @@ app.prepare().then(() => {
         });
     });
 
+    exp.on('upgrade', (req, socket, head) => {
+        console.log("upgrade", req.url)
+
+        if (!req.url.includes('/_next/webpack-hmr')) {
+            wss.handleUpgrade(req, socket, head, (ws) => {
+                wss.emit('connection', ws, req);
+            });
+        }
+    });
+
     exp.all('*', (req, res) => {
         return handle(req, res);
     });
