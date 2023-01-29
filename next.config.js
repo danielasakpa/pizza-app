@@ -5,9 +5,8 @@ const prodConfig = {
     domains: ["res.cloudinary.com"]
   },
   env: {
-    API_ENDPOINT: 'https://pizza-app3.netlify.app'
+    API_ENDPOINT: 'https://pizza-app-lime.vercel.app'
   },
-  serverless: true,
 }
 
 const devConfig = {
