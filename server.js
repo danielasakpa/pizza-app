@@ -1,11 +1,10 @@
 const express = require('express');
 const next = require('next');
-const { createServer } = require('http')
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const ws = require('ws')
 const bodyParser = require('body-parser');
 const Order = require('./models/Order.js');
 const Product = require('./models/Product.js');
-const cookie = require('cookie');
 var cors = require('cors');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -19,36 +18,40 @@ app.prepare().then(() => {
     exp.use(cors({
         origin: process.env.API_ENDPOINT
     }))
-    exp.use(bodyParser.json())
-    exp.use(bodyParser.urlencoded({ extended: true }));
 
     exp.use((req, res, next) => {
-        req.cookies = cookie.parse(req.headers.cookie || '');
-        next();
-    });
-
-    exp.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", `${process.env.API_ENDPOINT}`);
+        res.header("Access-Control-Allow-Origin", process.env.API_ENDPOINT);
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
 
+    exp.use('/ws', createProxyMiddleware({ target: `ws://localhost:${PORT}`, ws: true }))
+
     const server = require('http').Server(exp);
-    const wss = new ws.Server({ server });
+    const wss = new ws.Server({ noServer: true });
 
     wss.on('connection', (ws) => {
         console.log("A user has connected")
+    });
 
-        Product.watch().on('change', (data) => {
-            ws.send(JSON.stringify({ type: "product-update", data }));
-        });
 
-        Order.watch().on('change', (data) => {
-            ws.send(JSON.stringify({ type: "order-update", data }));
+    Product.watch().on('change', (data) => {
+        wss.clients.forEach((client) => {
+            client.send(JSON.stringify({ type: "product-update", data }));
         });
     });
 
-    exp.on('upgrade', (req, socket, head) => {
+    Order.watch().on('change', (data) => {
+        wss.clients.forEach((client) => {
+            client.send(JSON.stringify({ type: "order-update", data }));
+        });
+    });
+
+    exp.all('*', (req, res) => {
+        return handle(req, res);
+    });
+
+    server.on('upgrade', (req, socket, head) => {
         console.log("upgrade", req.url)
 
         if (!req.url.includes('/_next/webpack-hmr')) {
@@ -56,10 +59,6 @@ app.prepare().then(() => {
                 wss.emit('connection', ws, req);
             });
         }
-    });
-
-    exp.all('*', (req, res) => {
-        return handle(req, res);
     });
 
     server.listen(PORT, (err) => {
