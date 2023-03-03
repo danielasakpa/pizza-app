@@ -3,7 +3,7 @@ import OrderTable from "../../components/OrderTable";
 import ProductTable from "../../components/ProductTable";
 import styles from "../../styles/Admin.module.css";
 import { toast } from "react-toastify";
-import useSocket from "../../hooks/useSockek";
+import useSocket from "../../hooks/useSocket";
 
 const Index = ({ products, orders }) => {
   const [pizzaList, setPizzaList] = useState(products);

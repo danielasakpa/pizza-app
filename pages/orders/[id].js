@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from "../../styles/Order.module.css";
 import Image from "next/image";
-import useSocket from '../../hooks/useSockek';
+import useSocket from '../../hooks/useSocket';
 
 
 const Order = ({ order }) => {

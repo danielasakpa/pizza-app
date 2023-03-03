@@ -4,7 +4,7 @@ import Featured from '../components/Featured'
 import PizzaList from '../components/PizzaList'
 import Add from "../components/Add";
 import AddButton from "../components/AddButton";
-import useSocket from "../hooks/useSockek";
+import useSocket from "../hooks/useSocket";
 
 export default function Home({ pizzaList, admin }) {
   const [close, setClose] = useState(true);
