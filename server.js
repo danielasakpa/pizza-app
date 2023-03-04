@@ -12,6 +12,9 @@ const dev = process.env.NODE_ENV !== 'production';
 // Create a new Next.js app instance
 const app = next({ dev });
 
+// Get the Next.js request handler for the app
+const handle = app.getRequestHandler();
+
 // Define the port to listen on
 const PORT = process.env.PORT || 3000;
 

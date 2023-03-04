@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const useSocket = (onConnect, onOrderUpdate, onProductUpdate) => {
     useEffect(() => {
         // NOTE: WebSocket server only works in development
-        // const socket = new WebSocket('ws://localhost:3000')
+        const socket = new WebSocket('ws://localhost:3000')
 
         // Set up event listener for onConnect
         if (onConnect) {
