@@ -1,6 +1,6 @@
 # Pizza Ordering Web Application
 
-This web application is designed to help users order their favorite pizzas online. The app is built using HTML, CSS, and JavaScript, and it uses Netlify for hosting.
+This web application is designed to help users order their favorite pizzas online. The app is built using NEXT JS, CSS, JavaScript, Express, WebSockets and , and it uses Netlify for hosting.
 
 ## Features
 - The user can choose from a list of pizza options.
@@ -12,7 +12,7 @@ This web application is designed to help users order their favorite pizzas onlin
 
 ## Getting Started
 To get started with the code, follow these steps:
-1. Clone the repository using `git clone https://github.com/your-username/pizza-app.git`
+1. Clone the repository using `git clone https://github.com/danielasakpa/pizza-app.git`
 2. Navigate to the project directory using `cd pizza-app`
 3. Open the project in your preferred code editor
 4. Install any necessary dependencies using `npm install`
