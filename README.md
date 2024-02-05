@@ -1,5 +1,12 @@
 # Pizza Ordering Web Application
 
+## Screenshots
+<br/>
+
+<p align="center">
+  <img src="https://i.ibb.co/7gGxyPW/Pizza.png" alt="Alt Text">
+</p>
+
 This web application is designed to help users order their favorite pizzas online. The app is built using NEXT JS, CSS, JavaScript, Express, WebSockets and , and it uses Netlify for hosting.
 
 ## Features
@@ -22,7 +29,7 @@ To get started with the code, follow these steps:
 If you would like to contribute to the development of this application, you can do so by following the steps above and making changes to the code as needed. You can also create a new branch using `git checkout -b my-feature-branch` and submit a pull request when you're ready to merge your changes back into the main codebase.
 
 ## Credits
-This application was built by [Your Name] as part of a coding challenge. The pizza images used in this application were sourced from Unsplash.
+This application was built by Daniel Asakpa as part of a coding challenge. The pizza images used in this application were sourced from Unsplash.
 
 ## License
 This project is licensed under the MIT License. Feel free to use and modify this application as needed.
